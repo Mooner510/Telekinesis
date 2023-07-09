@@ -38,10 +38,10 @@ public final class Telekinesis extends JavaPlugin implements Listener {
             case "autopickup" -> {
                 if (sender instanceof Player p) {
                     if (autoPickup.contains(p.getUniqueId())) {
-                        p.sendMessage(chat("&6[ 자동 줍기 ] &c껐다 어쩔래"));
+                        p.sendMessage(chat("&6[ 자동 줍기 ] &c자동줍기 기능이 비활성화되었습니다."));
                         autoPickup.remove(p.getUniqueId());
                     } else {
-                        p.sendMessage(chat("&6[ 자동 줍기 ] &a아마 켜졌을꺼임 해보셈"));
+                        p.sendMessage(chat("&6[ 자동 줍기 ] &a자동줍기 기능이 활성화되었습니다."));
                         autoPickup.add(p.getUniqueId());
                     }
                 }
@@ -49,10 +49,10 @@ public final class Telekinesis extends JavaPlugin implements Listener {
             case "autosmelt" -> {
                 if (sender instanceof Player p) {
                     if (autoSmelt.contains(p.getUniqueId())) {
-                        p.sendMessage(chat("&6[ 자동 굽기 ] &c껐다 어쩔래"));
+                        p.sendMessage(chat("&6[ 자동 굽기 ] &c자동굽기 기능이 비활성화되었습니다."));
                         autoSmelt.remove(p.getUniqueId());
                     } else {
-                        p.sendMessage(chat("&6[ 자동 굽기 ] &a아마 켜졌을꺼임 해보셈"));
+                        p.sendMessage(chat("&6[ 자동 굽기 ] &a자동굽기 기능이 비활성화되었습니다."));
                         autoSmelt.add(p.getUniqueId());
                     }
                 }
