@@ -16,18 +16,11 @@ import java.util.*;
 import static org.mooner510.telekinesis.MoonerUtils.chat;
 
 public final class Telekinesis extends JavaPlugin implements Listener {
-    private static Telekinesis telekinesis;
-
-    public static Telekinesis getInstance() {
-        return telekinesis;
-    }
-
     private Set<UUID> autoPickup;
     private Set<UUID> autoSmelt;
 
     @Override
     public void onEnable() {
-        telekinesis = this;
         autoPickup = new HashSet<>();
         autoSmelt = new HashSet<>();
         Bukkit.getPluginManager().registerEvents(this, this);
@@ -71,21 +64,48 @@ public final class Telekinesis extends JavaPlugin implements Listener {
         return true;
     }
 
-    private ItemStack smelt(ItemStack itemStack) {
+    private void smelt(ItemStack itemStack) {
+        String str = itemStack.getType().toString();
+        if (str.endsWith("_TERRACOTTA")) {
+            try {
+                itemStack.setType(Material.valueOf(str.substring(0, str.indexOf('_')) + "GLAZED_TERRACOTTA"));
+                return;
+            } catch (Exception ignore) {
+            }
+        }
         switch (itemStack.getType()) {
-            case RAW_COPPER -> itemStack.setType(Material.COPPER_INGOT);
-            case RAW_IRON -> itemStack.setType(Material.IRON_INGOT);
-            case RAW_GOLD -> itemStack.setType(Material.GOLD_INGOT);
-            case NETHER_GOLD_ORE -> itemStack.setType(Material.GOLD_INGOT);
-            case GOLD_ORE -> itemStack.setType(Material.GOLD_INGOT);
-            case COPPER_ORE -> itemStack.setType(Material.GOLD_INGOT);
-            case DIAMOND_ORE -> itemStack.setType(Material.GOLD_INGOT);
-            case IRON_ORE -> itemStack.setType(Material.GOLD_INGOT);
-            case LAPIS_ORE -> itemStack.setType(Material.GOLD_INGOT);
-            case RAW_GOLD -> itemStack.setType(Material.GOLD_INGOT);
-            case RAW_GOLD -> itemStack.setType(Material.GOLD_INGOT);
-            case RAW_GOLD -> itemStack.setType(Material.GOLD_INGOT);
-            case RAW_GOLD -> itemStack.setType(Material.GOLD_INGOT);
+            case RAW_COPPER, COPPER_ORE -> itemStack.setType(Material.COPPER_INGOT);
+            case RAW_IRON, IRON_ORE -> itemStack.setType(Material.IRON_INGOT);
+            case RAW_GOLD, NETHER_GOLD_ORE, GOLD_ORE -> itemStack.setType(Material.GOLD_INGOT);
+            case DIAMOND_ORE -> itemStack.setType(Material.DIAMOND);
+            case LAPIS_ORE -> itemStack.setType(Material.LAPIS_LAZULI);
+            case REDSTONE_ORE -> itemStack.setType(Material.REDSTONE);
+            case COAL_ORE -> itemStack.setType(Material.COAL);
+            case EMERALD_ORE -> itemStack.setType(Material.EMERALD);
+            case NETHER_QUARTZ_ORE -> itemStack.setType(Material.QUARTZ);
+            case SAND, RED_SAND -> itemStack.setType(Material.GLASS);
+            case COBBLESTONE -> itemStack.setType(Material.SMOOTH_STONE);
+            case SANDSTONE -> itemStack.setType(Material.SMOOTH_SANDSTONE);
+            case RED_SANDSTONE -> itemStack.setType(Material.SMOOTH_RED_SANDSTONE);
+            case CLAY_BALL -> itemStack.setType(Material.BRICK);
+            case NETHERRACK -> itemStack.setType(Material.NETHER_BRICK);
+            case NETHER_BRICKS -> itemStack.setType(Material.CRACKED_NETHER_BRICKS);
+            case BASALT -> itemStack.setType(Material.SMOOTH_BASALT);
+            case CLAY -> itemStack.setType(Material.TERRACOTTA);
+            case STONE_BRICKS -> itemStack.setType(Material.CRACKED_STONE_BRICKS);
+            case POLISHED_BLACKSTONE_BRICKS -> itemStack.setType(Material.CRACKED_POLISHED_BLACKSTONE_BRICKS);
+            case COBBLED_DEEPSLATE -> itemStack.setType(Material.DEEPSLATE);
+            case DEEPSLATE_BRICKS -> itemStack.setType(Material.CRACKED_DEEPSLATE_BRICKS);
+            case DEEPSLATE_TILES -> itemStack.setType(Material.CRACKED_DEEPSLATE_TILES);
+            case CACTUS -> itemStack.setType(Material.GREEN_DYE);
+            case ACACIA_LOG, BIRCH_LOG, OAK_LOG, DARK_OAK_LOG, JUNGLE_LOG, SPRUCE_LOG, MANGROVE_LOG,
+                    STRIPPED_ACACIA_LOG, STRIPPED_OAK_LOG, STRIPPED_JUNGLE_LOG, STRIPPED_BIRCH_LOG, STRIPPED_DARK_OAK_LOG, STRIPPED_SPRUCE_LOG, STRIPPED_MANGROVE_LOG,
+                    ACACIA_WOOD, BIRCH_WOOD, DARK_OAK_WOOD, JUNGLE_WOOD, MANGROVE_WOOD, OAK_WOOD, SPRUCE_WOOD,
+                    STRIPPED_ACACIA_WOOD, STRIPPED_DARK_OAK_WOOD, STRIPPED_BIRCH_WOOD, STRIPPED_JUNGLE_WOOD, STRIPPED_OAK_WOOD, STRIPPED_MANGROVE_WOOD, STRIPPED_SPRUCE_WOOD ->
+                    itemStack.setType(Material.CHARCOAL);
+            case CHORUS_FRUIT -> itemStack.setType(Material.POPPED_CHORUS_FRUIT);
+            case WET_SPONGE -> itemStack.setType(Material.SPONGE);
+            case SEA_PICKLE -> itemStack.setType(Material.LIME_DYE);
         }
     }
 
@@ -98,12 +118,12 @@ public final class Telekinesis extends JavaPlugin implements Listener {
 
         Collection<ItemStack> drops = event.getBlock().getDrops(event.getPlayer().getInventory().getItemInMainHand());
 
-        if (smelt) {
-            drops.forEach(item -> );
-        }
+        event.setDropItems(false);
+        if (smelt) drops.forEach(this::smelt);
         if (pickup) {
-            event.setDropItems(false);
-            if (!drops.isEmpty()) drops.forEach(item -> event.getPlayer().getInventory().addItem(item));
+            drops.forEach(item -> event.getPlayer().getInventory().addItem(item));
+            return;
         }
+        drops.forEach(item -> event.getPlayer().getWorld().dropItemNaturally(event.getBlock().getLocation(), item));
     }
 }
