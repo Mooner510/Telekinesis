@@ -1,0 +1,5 @@
+name: Telekinesis
+version: '${project.version}'
+main: org.mooner510.telekinesis.Telekinesis
+api-version: '1.19'
+authors: [Mooner510]
