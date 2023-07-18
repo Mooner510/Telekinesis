@@ -52,7 +52,7 @@ public final class Telekinesis extends JavaPlugin implements Listener {
                         p.sendMessage(chat("&6[ 자동 굽기 ] &c자동굽기 기능이 비활성화되었습니다."));
                         autoSmelt.remove(p.getUniqueId());
                     } else {
-                        p.sendMessage(chat("&6[ 자동 굽기 ] &a자동굽기 기능이 비활성화되었습니다."));
+                        p.sendMessage(chat("&6[ 자동 굽기 ] &a자동굽기 기능이 활성화되었습니다."));
                         autoSmelt.add(p.getUniqueId());
                     }
                 }
