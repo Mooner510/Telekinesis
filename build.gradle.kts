@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "2.1.0-RC2"
     id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("io.papermc.paperweight.userdev") version "1.7.3"
 }
 
 group = "kr.mooner510"
@@ -14,11 +15,14 @@ repositories {
     maven("https://oss.sonatype.org/content/groups/public/") {
         name = "sonatype"
     }
+    maven("https://repo.panda-lang.org/releases")
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
+//    compileOnly("io.papermc.paper:paper-api:1.21.3-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("1.21.3-R0.1-SNAPSHOT")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("dev.rollczi:litecommands-bukkit:3.9.1")
 }
 
 val targetJavaVersion = 21
