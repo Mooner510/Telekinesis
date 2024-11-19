@@ -1,0 +1,7 @@
+name: Telekinesis
+version: '1.0'
+main: kr.mooner510.telekinesis.Telekinesis
+api-version: '1.21'
+authors: [ mooner510 ]
+description: Telekinesis Plugin
+website: mooner510.kr
