@@ -68,7 +68,7 @@ class Telekinesis : JavaPlugin(), Listener {
     override fun onEnable() {
         Bukkit.getPluginManager().registerEvents(this, this)
 
-        liteCommands = LiteBukkitFactory.builder("_sbr", this)
+        liteCommands = LiteBukkitFactory.builder("_telekinesis", this)
             .commands(TelekinesisCommand())
             .build()
 
